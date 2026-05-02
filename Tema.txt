@@ -1,0 +1,32 @@
+F1 Pulse é um website dedicado à Fórmula 1, criado para apresentar informação 
+atual e histórica sobre o campeonato de forma simples e intuitiva.
+A página inicial será uma homepage com navegação para as principais 
+secções do site. Inicialmente, o website irá disponibilizar a agenda da época de 2026, 
+mas a estrutura será pensada para permitir, no futuro, consultar calendários de épocas 
+anteriores e também os resultados das corridas passadas.
+O website terá ainda uma página dedicada às equipas,
+onde será possível consultar informação sobre cada construtor,
+ e uma página para pesquisar pilotos, permitindo aceder aos seus dados, 
+estatísticas e informação relevante.
+-------------//-------------//-------------//-------------//-------------//-------------//-------------//-------------//
+Estrutura
+1. Homepage
+Apresentação do website
+Menu de navegação
+Destaques da época atual
+Acesso rápido às principais páginas
+2. Agenda
+Calendário da F1 2026
+Datas das corridas
+Local dos Grandes Prémios
+Futuramente: épocas anteriores e resultados
+3. Equipas
+Lista de equipas da Fórmula 1
+Informações sobre cada equipa
+Pilotos associados
+Estatísticas principais
+4. Pilotos
+Sistema de pesquisa
+Informação individual de cada piloto
+Nacionalidade, equipa, número, estatísticas e carreira
+-------------//-------------//-------------//-------------//-------------//-------------//-------------//-------------//
