@@ -23,42 +23,9 @@
       <h1>Equipas de Fórmula 1</h1>
     </section>
 
-    <section class="teams-grid">
-      <a href="equipa.html" class="team-card">
-        <div class="placeholder team-logo">Logo</div>
-        <strong>Red Bull Racing</strong>
-        <button>Ver detalhes</button>
-      </a>
-
-      <a href="equipa.html" class="team-card">
-        <div class="placeholder team-logo">Logo</div>
-        <strong>Mercedes AMG Petronas</strong>
-        <button>Ver detalhes</button>
-      </a>
-
-      <a href="equipa.html" class="team-card">
-        <div class="placeholder team-logo">Logo</div>
-        <strong>Ferrari</strong>
-        <button>Ver detalhes</button>
-      </a>
-
-      <a href="equipa.html" class="team-card">
-        <div class="placeholder team-logo">Logo</div>
-        <strong>McLaren</strong>
-        <button>Ver detalhes</button>
-      </a>
-
-      <a href="equipa.html" class="team-card">
-        <div class="placeholder team-logo">Logo</div>
-        <strong>Aston Martin</strong>
-        <button>Ver detalhes</button>
-      </a>
-
-      <a href="equipa.html" class="team-card">
-        <div class="placeholder team-logo">Logo</div>
-        <strong>Alpine</strong>
-        <button>Ver detalhes</button>
-      </a>
+    <!-- AGORA DINÂMICO -->
+    <section class="teams-grid" id="teams-container">
+      <p>Carregando equipas...</p>
     </section>
   </main>
 
@@ -70,5 +37,42 @@
       <a href="#">Privacidade</a>
     </div>
   </footer>
+
+  <script>
+    const container = document.getElementById("teams-container");
+
+    async function carregarEquipas() {
+      try {
+        const res = await fetch("https://api.openf1.org/v1/drivers");
+        const data = await res.json();
+
+        // pegar equipas únicas e ordenar
+        const teams = [...new Set(data.map(d => d.team_name))].sort();
+
+        container.innerHTML = ""; // limpa "carregando..."
+
+        teams.forEach(team => {
+          const card = document.createElement("a");
+          card.className = "team-card";
+          card.href = "equipa.html?team=" + encodeURIComponent(team);
+
+          card.innerHTML = `
+            <div class="placeholder team-logo">Logo</div>
+            <strong>${team}</strong>
+            <button>Ver detalhes</button>
+          `;
+
+          container.appendChild(card);
+        });
+
+      } catch (err) {
+        container.innerHTML = "<p>Erro ao carregar equipas 😢</p>";
+        console.error(err);
+      }
+    }
+
+    carregarEquipas();
+  </script>
+
 </body>
 </html>
