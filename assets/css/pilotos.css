@@ -1,0 +1,330 @@
+/* ============================================
+   PÁGINA DE PILOTOS - F1 PULSE
+   ============================================ */
+
+@import url('./styles.css');
+
+/* Header */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Layout de pilotos com sidebar */
+.pilots-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Sidebar */
+.sidebar {
+  position: sticky;
+  top: 80px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 20px;
+  height: fit-content;
+}
+
+/* Pesquisa de piloto */
+.sidebar input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+.sidebar input[type="text"]::placeholder {
+  color: #999;
+}
+
+/* Lista de pilotos */
+.pilot-list {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 20px;
+}
+
+/* Item de piloto */
+.pilot-item {
+  padding: 12px 14px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.pilot-item:hover {
+  background: #f0f0f0;
+  border-color: #bbb;
+}
+
+.pilot-item.active-item {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  font-weight: 600;
+}
+
+.pilot-item span {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+.pilot-item.active-item span {
+  color: #fff;
+}
+
+/* Botão Ver mais */
+.sidebar .btn.small {
+  width: 100%;
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* Seção de detalhes do piloto */
+.driver-detail {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 30px;
+}
+
+/* Topo do detalhe do piloto */
+.driver-top {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 30px;
+  align-items: start;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.driver-top .placeholder.portrait {
+  min-height: 200px;
+  border-radius: 10px;
+}
+
+.driver-top h1 {
+  margin: 0 0 10px;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.driver-top h1 span {
+  font-weight: 600;
+  color: #666;
+  margin-left: 8px;
+}
+
+.driver-top p {
+  margin: 6px 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Cartão interno */
+.inner-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background: #fafafa;
+}
+
+.inner-card h3 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Grid de detalhes */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.details-grid div {
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.details-grid span {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.details-grid strong {
+  font-size: 0.95rem;
+  color: #111;
+  font-weight: 600;
+}
+
+/* Stats box */
+.stats-box {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stats-box div {
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stats-box strong {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111;
+}
+
+.stats-box span {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Footer */
+.footer {
+  margin-top: 40px;
+  padding: 16px 24px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+}
+
+.footer-links {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-links a {
+  color: #666;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #111;
+}
+
+/* Responsivo */
+@media (max-width: 1024px) {
+  .pilots-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+    top: auto;
+  }
+
+  .pilot-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .driver-top {
+    grid-template-columns: 150px 1fr;
+    gap: 20px;
+  }
+
+  .stats-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .pilot-list {
+    grid-template-columns: 1fr;
+  }
+
+  .driver-top {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .driver-detail {
+    padding: 16px;
+  }
+
+  .stats-box {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .stats-box div {
+    padding: 12px;
+  }
+
+  .driver-top h1 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 14px;
+  }
+
+  .pilot-item {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .driver-top {
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+  }
+
+  .driver-top h1 {
+    font-size: 1.2rem;
+  }
+
+  .stats-box {
+    grid-template-columns: 1fr;
+  }
+
+  .details-grid {
+    gap: 10px;
+  }
+
+  .details-grid div {
+    padding: 12px;
+  }
+}

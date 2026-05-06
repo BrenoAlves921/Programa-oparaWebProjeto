@@ -1,0 +1,271 @@
+/* ============================================
+   PÁGINA DE PILOTO INDIVIDUAL - F1 PULSE
+   ============================================ */
+
+@import url('./styles.css');
+
+/* Header */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Página principal */
+.page {
+  width: min(1200px, 92vw);
+  margin: 24px auto;
+}
+
+/* Link de volta */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  margin-bottom: 20px;
+  color: #111;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  background: #f0f0f0;
+  border-color: #bbb;
+}
+
+/* Cartão principal */
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 30px;
+}
+
+/* Grid de detalhes do piloto */
+.team-detail-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 30px;
+  align-items: start;
+  margin-bottom: 30px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.team-detail-grid .placeholder.portrait {
+  min-height: 220px;
+  border-radius: 10px;
+}
+
+/* Informações do piloto */
+.team-detail-grid h1 {
+  margin: 0 0 12px;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #111;
+  line-height: 1.2;
+}
+
+.team-detail-grid h1 span {
+  display: inline-block;
+  font-weight: 600;
+  color: #666;
+  margin-left: 12px;
+  font-size: 1.2rem;
+}
+
+.team-detail-grid p {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.team-detail-grid p strong {
+  display: block;
+  color: #111;
+  font-weight: 700;
+}
+
+/* Seções de informação adicionais */
+.card {
+  margin-bottom: 24px;
+}
+
+.card h3 {
+  margin: 0 0 18px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Grid de estatísticas */
+.stats-box {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stats-box div {
+  padding: 18px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stats-box strong {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #111;
+}
+
+.stats-box span {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Footer */
+.footer {
+  margin-top: 40px;
+  padding: 16px 24px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: #666;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: #111;
+}
+
+/* Responsivo */
+@media (max-width: 1024px) {
+  .team-detail-grid {
+    grid-template-columns: 180px 1fr;
+    gap: 24px;
+  }
+
+  .team-detail-grid h1 {
+    font-size: 1.6rem;
+  }
+
+  .stats-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .team-detail-grid .placeholder.portrait {
+    min-height: 180px;
+  }
+
+  .team-detail-grid h1 {
+    font-size: 1.4rem;
+  }
+
+  .team-detail-grid h1 span {
+    margin-left: 8px;
+  }
+
+  .stats-box {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .stats-box div {
+    padding: 14px;
+  }
+
+  .stats-box strong {
+    font-size: 1.3rem;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .footer-links {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-detail-grid {
+    gap: 14px;
+  }
+
+  .team-detail-grid h1 {
+    font-size: 1.2rem;
+  }
+
+  .team-detail-grid h1 span {
+    display: inline;
+    margin-left: 4px;
+  }
+
+  .team-detail-grid p {
+    font-size: 0.9rem;
+  }
+
+  .stats-box {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-box div {
+    padding: 12px;
+  }
+
+  .back-link {
+    margin-bottom: 14px;
+    font-size: 0.9rem;
+  }
+
+  .card {
+    padding: 14px;
+  }
+}

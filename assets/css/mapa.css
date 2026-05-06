@@ -1,0 +1,237 @@
+/* ============================================
+   PÁGINA DE MAPA/FLUXO DE NAVEGAÇÃO - F1 PULSE
+   ============================================ */
+
+@import url('./styles.css');
+
+/* Página */
+.page {
+  width: min(1200px, 92vw);
+  margin: 24px auto;
+  margin-bottom: 40px;
+}
+
+/* Cartão do mapa */
+.card.sitemap {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 40px;
+}
+
+.card.sitemap h1 {
+  margin: 0 0 30px;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #111;
+  text-align: center;
+}
+
+/* Container do mapa */
+.sitemap-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+/* Nó principal */
+.main-node {
+  border: 2px solid #111;
+  border-radius: 10px;
+  padding: 16px 32px;
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  min-width: 180px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ramificações */
+.sitemap-branches {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  width: 100%;
+}
+
+/* Branch individual */
+.branch {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-items: center;
+  align-items: center;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+/* Nó */
+.node {
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 12px 16px;
+  width: fit-content;
+  background: #fff;
+  color: #111;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+  min-width: 140px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.node:hover {
+  border-color: #111;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Nó pequeno */
+.node.small {
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  min-width: 120px;
+  background: #fafafa;
+  border-color: #ddd;
+}
+
+.node.small:hover {
+  background: #f0f0f0;
+}
+
+/* Conexão visual entre nós */
+.branch::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 30px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Responsivo */
+@media (max-width: 1200px) {
+  .card.sitemap {
+    padding: 30px;
+  }
+
+  .sitemap-branches {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .branch {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card.sitemap {
+    padding: 20px;
+  }
+
+  .card.sitemap h1 {
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+  }
+
+  .sitemap-branches {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .branch {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .main-node {
+    padding: 12px 24px;
+    font-size: 1rem;
+    min-width: 160px;
+  }
+
+  .node {
+    padding: 10px 14px;
+    min-width: 130px;
+    font-size: 0.95rem;
+  }
+
+  .node.small {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    min-width: 110px;
+  }
+
+  .sitemap-box {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card.sitemap {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .card.sitemap h1 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
+  .sitemap-branches {
+    gap: 12px;
+  }
+
+  .branch {
+    padding: 12px;
+    gap: 10px;
+    border-radius: 8px;
+  }
+
+  .main-node {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    min-width: 140px;
+  }
+
+  .node {
+    padding: 8px 12px;
+    min-width: 110px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+
+  .node.small {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    min-width: 100px;
+  }
+
+  .sitemap-box {
+    gap: 24px;
+    margin-top: 20px;
+  }
+
+  .page {
+    margin: 16px auto;
+  }
+}
+
+/* Modo claro/escuro - Efeito de hover melhorado */
+.branch:hover {
+  background: #f0f0f0;
+  border-color: #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.main-node:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
