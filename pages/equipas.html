@@ -78,66 +78,6 @@
   "Red Bull Racing": "redbull.png",
   "Williams": "williams.png"
 };
-
-    async function carregarEquipas() {
-
-      try {
-
-        const res = await fetch("https://api.openf1.org/v1/drivers");
-        const data = await res.json();
-
-        // equipas únicas + remove null
-        const teams = [...new Set(data.map(d => d.team_name))]
-          .filter(Boolean)
-          .filter(team =>
-  !["AlphaTauri", "Alfa Romeo", "RB"].includes(team)
-)
-          .sort();
-
-        container.innerHTML = "";
-
-        teams.forEach(team => {
-
-          const card = document.createElement("a");
-
-          card.className = "team-card";
-
-          card.href =
-            "equipa.html?team=" + encodeURIComponent(team);
-
-          // logo da equipa
-          const logo =
-            teamLogos[team] || "default.png";
-
-          card.innerHTML = `
-           <img
-  class="team-logo"
-  src="../assets/logos/${logo}"
-  alt="${team}"
-  onerror="this.src='../assets/logos/default.png'"
-/>
-
-            <strong>${team}</strong>
-
-            <button>Ver detalhes</button>
-          `;
-
-          container.appendChild(card);
-
-        });
-
-      } catch (err) {
-
-        container.innerHTML =
-          "<p>Erro ao carregar equipas</p>";
-
-        console.error(err);
-
-      }
-
-    }
-
-    carregarEquipas();
   </script>
 
 </body>
