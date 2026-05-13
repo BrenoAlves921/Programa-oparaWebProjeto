@@ -30,3 +30,6 @@ Sistema de pesquisa
 Informação individual de cada piloto
 Nacionalidade, equipa, número, estatísticas e carreira
 -------------//-------------//-------------//-------------//-------------//-------------//-------------//-------------//
+
+
+API LINK =" https://api-sports.io/documentation/formula-1/v1#tag/Teams/operation/get-teams "
