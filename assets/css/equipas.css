@@ -172,3 +172,11 @@
     padding: 14px;
   }
 }
+.team-logo {
+  width: 140px;
+  height: 90px;
+  object-fit: contain;
+
+  display: block;
+  margin: 0 auto 20px auto;
+}

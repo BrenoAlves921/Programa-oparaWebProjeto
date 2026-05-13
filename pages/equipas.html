@@ -4,33 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>F1 Pulse | Equipas</title>
+
   <link rel="stylesheet" href="../assets/css/equipas.css" />
+
+  <style>
+    .team-logo {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
+  </style>
 </head>
+
 <body>
+
   <header class="topbar">
     <div class="logo">F1 <span>Pulse</span></div>
+
     <nav class="navbar">
       <a href="../index.html">Home</a>
       <a href="agenda.html">Agenda</a>
       <a href="equipas.html" class="active">Equipas</a>
       <a href="pilotos.html">Pilotos</a>
     </nav>
+
     <div class="search-icon">⌕</div>
   </header>
 
   <main class="page">
+
     <section class="page-header">
       <h1>Equipas de Fórmula 1</h1>
     </section>
 
-    
     <section class="teams-grid" id="teams-container">
       <p>Carregando equipas...</p>
     </section>
+
   </main>
 
   <footer class="footer">
     <div>F1 Pulse</div>
+
     <div class="footer-links">
       <a href="#">Sobre</a>
       <a href="#">Contacto</a>
@@ -41,34 +57,84 @@
   <script>
     const container = document.getElementById("teams-container");
 
+    // mapa dos logos
+   const teamLogos = {
+  "Alfa Romeo": "sauber.png",
+  "AlphaTauri": "rb.png",
+  "Alpine": "alpine.png",
+  "Aston Martin": "astonmartin.png",
+  "Audi": "audi.png",
+  "Cadillac": "cadillac.png",
+  "Ferrari": "ferrari.png",
+  "Haas F1 Team": "haas.png",
+  "Kick Sauber": "sauber.png",
+  "McLaren": "mclaren.png",
+
+  // IMPORTANTE:
+  "Mercedes": "mercedes.png",
+
+  "RB": "rb.png",
+  "Racing Bulls": "rb.png",
+  "Red Bull Racing": "redbull.png",
+  "Williams": "williams.png"
+};
+
     async function carregarEquipas() {
+
       try {
+
         const res = await fetch("https://api.openf1.org/v1/drivers");
         const data = await res.json();
 
-        // pegar equipas únicas e ordenar
-        const teams = [...new Set(data.map(d => d.team_name))].sort();
+        // equipas únicas + remove null
+        const teams = [...new Set(data.map(d => d.team_name))]
+          .filter(Boolean)
+          .filter(team =>
+  !["AlphaTauri", "Alfa Romeo", "RB"].includes(team)
+)
+          .sort();
 
-        container.innerHTML = ""; // limpa "carregando..."
+        container.innerHTML = "";
 
         teams.forEach(team => {
+
           const card = document.createElement("a");
+
           card.className = "team-card";
-          card.href = "equipa.html?team=" + encodeURIComponent(team);
+
+          card.href =
+            "equipa.html?team=" + encodeURIComponent(team);
+
+          // logo da equipa
+          const logo =
+            teamLogos[team] || "default.png";
 
           card.innerHTML = `
-            <div class="placeholder team-logo">Logo</div>
+           <img
+  class="team-logo"
+  src="../assets/logos/${logo}"
+  alt="${team}"
+  onerror="this.src='../assets/logos/default.png'"
+/>
+
             <strong>${team}</strong>
+
             <button>Ver detalhes</button>
           `;
 
           container.appendChild(card);
+
         });
 
       } catch (err) {
-        container.innerHTML = "<p>Erro ao carregar equipas</p>";
+
+        container.innerHTML =
+          "<p>Erro ao carregar equipas</p>";
+
         console.error(err);
+
       }
+
     }
 
     carregarEquipas();
