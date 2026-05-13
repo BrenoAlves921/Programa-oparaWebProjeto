@@ -1,4 +1,4 @@
-const apikey = "140535bf2db1a720726c59b81e9ca249"
+const apikey = "140535bf2db1a720726c59b81e9ca249";
 
 async function procurarDrivers(nomedriver) {
   try {
@@ -16,7 +16,7 @@ async function procurarDrivers(nomedriver) {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 
 async function procurarEquipa(nomeequipa) {
@@ -35,17 +35,18 @@ async function procurarEquipa(nomeequipa) {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 
 
-async function procurarcorridas() {
+export async function procurarcorridas() {
   try {
     const response = await fetch(
-      "https://v1.formula-1.api-sports.io/races", // envia um pedido á api com o nomepesquisado
+      "https://v1.formula-1.api-sports.io/races?season=2026", // envia um pedido á api com o nomepesquisado
       {
         method: "GET",
         headers: {
+          
         "x-apisports-key": apikey
         }
       }
@@ -55,5 +56,5 @@ async function procurarcorridas() {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
