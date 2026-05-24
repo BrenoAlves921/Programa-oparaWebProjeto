@@ -3,7 +3,7 @@ const apikey = "140535bf2db1a720726c59b81e9ca249";
 async function procurarDrivers(nomedriver) {
   try {
     const response = await fetch(
-      "https://v1.formula-1.api-sports.io/${encodeURIComponent(nomedriver)}", // envia um pedido á api com o nomepesquisado
+      "https://v1.formula-1.api-sports.io/${encodeURIComponent(nomedriver)}/season=2023", // envia um pedido á api com o nomepesquisado
       {
         method: "GET",
         headers: {
@@ -42,7 +42,7 @@ async function procurarEquipa(nomeequipa) {
 export async function procurarcorridas() {
   try {
     const response = await fetch(
-      "https://v1.formula-1.api-sports.io/races?season=2026", // envia um pedido á api com o nomepesquisado
+      "https://v1.formula-1.api-sports.io/races?season=2023", // envia um pedido á api com o nomepesquisado
       {
         method: "GET",
         headers: {
@@ -53,6 +53,7 @@ export async function procurarcorridas() {
     );
     const dados = await response.json();  // espera pela resposta da api e converte para json
     console.log(dados);
+    return dados;   
   } catch (err) {
     console.log(err);
   }

@@ -5,7 +5,8 @@ import { procurarcorridas } from "./data/api.js"; // vai com o import buscar  a 
 
 async function procurarEquipa (){             // async funcion para "gerar a agenda"
     const dados = await procurarEquipa().  // declara uma constar para os dados provenientes do tal import
-    console.log(dados)                          // log para imprimir os dados (estagio inicial do codigo)
+    console.log(dados)       
+                     // log para imprimir os dados (estagio inicial do codigo)
 };
 
 procurarEquipa();                                   // log para imprimir os dados (estagio inicial do codigo)
