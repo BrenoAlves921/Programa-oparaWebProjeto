@@ -310,10 +310,3 @@ input, select, button {
   transform: translateY(-5px);
   border-color: #333;
 }
-.hero-car-img {
-  width: 100%;       /* Ocupa a largura do contêiner */
-  max-width: 500px;  /* Ajuste o tamanho máximo conforme necessário */
-  height: auto;      /* Mantém a proporção da imagem */
-  display: block;
-  margin: 0 auto;
-}
