@@ -87,54 +87,58 @@
     const container = document.getElementById("drivers-grid");
 
     try {
-      const response = await fetch(
-        "https://api.openf1.org/v1/drivers?team_name=Aston Martin"
-      );
-
+      // 1. Fetch com encoding correto para a URL
+      const response = await fetch("https://api.openf1.org/v1/drivers?team_name=" + encodeURIComponent("Aston Martin"));
       const drivers = await response.json();
 
-      // remover duplicados
-      const uniqueDrivers = [];
+      if (!drivers || drivers.length === 0) {
+        container.innerHTML = "<p>Nenhum piloto registrado.</p>";
+        return;
+      }
 
-      drivers.forEach(driver => {
-        const exists = uniqueDrivers.find(
-          d => d.driver_number === driver.driver_number
-        );
-
-        if (!exists) {
-          uniqueDrivers.push(driver);
+      // 2. FILTRAGEM SEGURA
+      // Usamos um Map para garantir que, para cada ID de piloto (driver_id), 
+      // tenhamos apenas um registo.
+      const mapaPilotos = new Map();
+      drivers.forEach(d => {
+        // Filtramos apenas pilotos que possuem um número atribuído (titulares)
+        if (d.driver_number !== null) {
+          mapaPilotos.set(d.driver_id, d);
         }
       });
+      
+      const uniqueDrivers = Array.from(mapaPilotos.values());
 
       container.innerHTML = "";
 
       uniqueDrivers.forEach(driver => {
-
-        const imgUrl = driver.headshot_url
-          ? driver.headshot_url
-          : "https://via.placeholder.com/120?text=F1";
+        // 3. TRATAMENTO DE IMAGEM
+        // Se a URL for inválida, o onerror força um placeholder local ou via.placeholder
+        const imgUrl = (driver.headshot_url && driver.headshot_url.startsWith('http')) 
+          ? driver.headshot_url 
+          : "https://via.placeholder.com/150/CCCCCC/FFFFFF?text=Sem+Foto";
 
         const card = document.createElement("div");
         card.className = "driver-card";
 
         card.innerHTML = `
-          <img src="${imgUrl}" alt="${driver.full_name}" />
+          <img src="${imgUrl}" alt="${driver.full_name}" 
+               onerror="this.src='https://via.placeholder.com/150/CCCCCC/FFFFFF?text=Sem+Foto';">
           <h3>${driver.full_name}</h3>
           <p>Número #${driver.driver_number}</p>
-          <p>${driver.country_code}</p>
+          <p>${driver.country_code || ""}</p>
         `;
-
         container.appendChild(card);
       });
 
     } catch (err) {
+      console.error("Erro:", err);
       container.innerHTML = "<p>Erro ao carregar pilotos.</p>";
-      console.error(err);
     }
   }
 
   carregarPilotos();
-  </script>
+</script>
 
 </body>
 </html>
