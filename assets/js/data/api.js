@@ -1,53 +1,39 @@
-const apikey = "140535bf2db1a720726c59b81e9ca249";
 
-async function procurarDrivers(nomedriver) {
+export async function obterTodosOsPilotos() {
   try {
+    console.log("A chamar API para pilotos...");
+    // Endpoint de standings (rankings) que aceita a época e retorna os pilotos
     const response = await fetch(
-      "https://v1.formula-1.api-sports.io/${encodeURIComponent(nomedriver)}/season=2023", // envia um pedido á api com o nomepesquisado
+      "https://v1.formula-1.api-sports.io/rankings/drivers?season=2023",
       {
         method: "GET",
+        mode: "cors",
         headers: {
-        "x-apisports-key": apikey
+          "x-apisports-key": "726b80477c3bd364adb17252ca61cb81"
         }
       }
     );
-    const dados = await response.json();  // espera pela resposta da api e converte para json
-    console.log(dados);
+    console.log("Status da resposta:", response.status);
+    const dados = await response.json();
+    console.log("JSON recebido:", dados);
+    return dados;
   } catch (err) {
-    console.log(err);
+    console.log("Erro na API:", err);
+    return null;
   }
-};
-
-
-async function procurarEquipa(nomeequipa) {
-  try {
-    const response = await fetch(
-      "https://v1.formula-1.api-sports.io/${encodeURIComponent(nomeequipa)}", // envia um pedido á api com o nomepesquisado
-      {
-        method: "GET",
-        headers: {
-        "x-apisports-key": apikey
-        }
-      }
-    );
-    const dados = await response.json();  // espera pela resposta da api e converte para json
-    console.log(dados);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
+}
 
 
 export async function procurarcorridas() {
   try {
     const response = await fetch(
-      "https://v1.formula-1.api-sports.io/races?season=2023", // envia um pedido á api com o nomepesquisado
+      `https://v1.formula-1.api-sports.io/races?season=2023`, // envia um pedido á api com o nomepesquisado
       {
         method: "GET",
+        mode: "cors",
         headers: {
           
-        "x-apisports-key": apikey
+        "x-apisports-key": "726b80477c3bd364adb17252ca61cb81"
         }
       }
     );

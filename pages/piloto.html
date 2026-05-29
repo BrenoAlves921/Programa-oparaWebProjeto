@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F1 Pulse | Piloto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">F1 <span>Pulse</span></div>
+  <nav class="navbar">
+    <a href="../index.html">Home</a>
+    <a href="agenda.html">Agenda</a>
+    <a href="equipas.html">Equipas</a>
+    <a href="pilotos.html">Pilotos</a>
+  </nav>
+</header>
+
+<a class="back-btn" href="pilotos.html">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+  Voltar à lista
+</a>
+
+<div id="app">
+  <div class="loading-screen">
+    <div class="spinner"></div>
+    <p class="loading-text">A carregar piloto...</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div>F1 Pulse</div>
+  <div class="footer-links">
+    <a href="#">Sobre</a>
+    <a href="#">Contacto</a>
+    <a href="#">Privacidade</a>
+  </div>
+</footer>
+
+<script type="module">
+  const API_KEY = "726b80477c3bd364adb17252ca61cb81";
+  const BASE    = "https://v1.formula-1.api-sports.io";
+
+  async function apiFetch(path) {
+    const r = await fetch(`${BASE}${path}`, { headers: { "x-apisports-key": API_KEY } });
+    const d = await r.json();
+    return d?.response ?? [];
+  }
+
+  const params   = new URLSearchParams(location.search);
+  const driverId = params.get("id");
+  const season   = params.get("season") || "2023";
+
+  if (!driverId) {
+    document.getElementById("app").innerHTML =
+      `<div class="loading-screen"><p class="loading-text" style="color:var(--red)">Nenhum piloto especificado.</p></div>`;
+  } else {
+    carregarPiloto(driverId, season);
+  }
+
+  async function carregarPiloto(id, season) {
+    try {
+      const [rankings, corridas] = await Promise.all([
+        apiFetch(`/rankings/drivers?season=${season}`),
+        apiFetch(`/results?driver=${id}&season=${season}&type=race`)
+      ]);
+
+      const entry = rankings.find(r => String(r.driver?.id) === String(id));
+
+      if (!entry) {
+        document.getElementById("app").innerHTML =
+          `<div class="loading-screen"><p class="loading-text" style="color:var(--red)">Piloto não encontrado.</p></div>`;
+        return;
+      }
+      renderPiloto(entry, corridas, season);
+    } catch (e) {
+      console.error(e);
+      document.getElementById("app").innerHTML =
+        `<div class="loading-screen"><p class="loading-text" style="color:var(--red)">Erro ao carregar dados.</p></div>`;
+    }
+  }
+
+  function renderPiloto(entry, corridas, season) {
+    const { driver = {}, team = {}, points = 0, position = "-", wins = 0 } = entry;
+    const bandeira = flagEmoji(driver.nationality);
+
+    document.getElementById("app").innerHTML = `
+      <div class="hero fade-in">
+        <div class="hero-left">
+          <div class="bg-number">${driver.number || ""}</div>
+          <div class="pilot-number-badge">Nº ${driver.number || "—"}</div>
+          <h1 class="pilot-name">${driver.name || "Desconhecido"}</h1>
+          <div class="pilot-team-badge">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block"></span>
+            ${team.name || "Sem equipa"}
+          </div>
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="stat-label">Posição</span>
+              <span class="stat-value red">${position}º</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Pontos</span>
+              <span class="stat-value">${points}</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Vitórias</span>
+              <span class="stat-value">${wins}</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Corridas</span>
+              <span class="stat-value">${corridas.length}</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-right">
+          <img class="hero-img"
+               src="${driver.image || '/assets/Logos/pilots.png'}"
+               alt="${driver.name}"
+               onerror="this.src='/assets/Logos/pilots.png'">
+        </div>
+      </div>
+
+      <div class="content-grid fade-in" style="animation-delay:.1s">
+        <div class="info-panel">
+          <div class="panel-title">Perfil</div>
+          <div class="info-list">
+            <div class="info-row"><span class="info-key">Nome completo</span><span class="info-val">${driver.name || "—"}</span></div>
+            <div class="info-row"><span class="info-key">Nacionalidade</span><span class="info-val">${bandeira} ${driver.nationality || "—"}</span></div>
+            <div class="info-row"><span class="info-key">Data de nascimento</span><span class="info-val">${formatDate(driver.birthday) || "—"}</span></div>
+            <div class="info-row"><span class="info-key">Número</span><span class="info-val">#${driver.number || "—"}</span></div>
+            <div class="info-row"><span class="info-key">Abreviação</span><span class="info-val">${driver.abbr || "—"}</span></div>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <div class="panel-title">Época ${season}</div>
+          <div class="info-list">
+            <div class="info-row"><span class="info-key">Equipa</span><span class="info-val">${team.name || "—"}</span></div>
+            <div class="info-row"><span class="info-key">Posição no campeonato</span><span class="info-val" style="color:var(--red);font-weight:700">${position}º</span></div>
+            <div class="info-row"><span class="info-key">Pontos</span><span class="info-val">${points}</span></div>
+            <div class="info-row"><span class="info-key">Vitórias</span><span class="info-val">${wins}</span></div>
+            <div class="info-row"><span class="info-key">Corridas disputadas</span><span class="info-val">${corridas.length || "—"}</span></div>
+          </div>
+        </div>
+
+        <div class="races-panel">
+          <div class="panel-title">Resultados por corrida — ${season}</div>
+          ${renderTabela(corridas, driver.id)}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderTabela(corridas, driverId) {
+    if (!corridas || corridas.length === 0)
+      return `<p style="color:var(--muted);font-size:.85rem">Sem dados de corridas disponíveis.</p>`;
+
+    const linhas = corridas.map(c => {
+      const race   = c.race || c || {};
+      const circuit = race.circuit || {};
+      const results = race.results || [];
+      const result = results.find(r => String(r.driver?.id) === String(driverId)) || {};
+      const pos    = result.position;
+      const status = result.status || "";
+      const pts    = result.points ?? "—";
+      const time   = result.time?.time || "—";
+      const laps   = result.laps?.total ?? "—";
+      const grid   = result.grid ?? "—";
+
+      let badgeClass = "pos-other";
+      if (pos === 1) badgeClass = "pos-1";
+      else if (pos === 2) badgeClass = "pos-2";
+      else if (pos === 3) badgeClass = "pos-3";
+      else if (pos && pos <= 10) badgeClass = "pos-top";
+
+      const dnfHtml = status && status.toLowerCase() !== "finished"
+        ? `<span class="dnf">${status}</span>` : "";
+
+      return `<tr>
+        <td>${race.name || "—"}</td>
+        <td>${circuit.name || "—"}</td>
+        <td>${formatDateShort(race.date)}</td>
+        <td><span class="pos-badge ${badgeClass}">${pos ?? "—"}</span></td>
+        <td>${grid}</td>
+        <td>${pts}</td>
+        <td>${laps}</td>
+        <td>${time} ${dnfHtml}</td>
+      </tr>`;
+    }).join("");
+
+    return `<table class="race-table">
+      <thead><tr>
+        <th>Corrida</th><th>Circuito</th><th>Data</th><th>Pos.</th><th>Grid</th><th>Pts</th><th>Voltas</th><th>Tempo / Estado</th>
+      </tr></thead>
+      <tbody>${linhas}</tbody>
+    </table>`;
+  }
+
+  function formatDate(str) {
+    if (!str) return null;
+    const d = new Date(str);
+    return isNaN(d) ? str : d.toLocaleDateString("pt-PT", { day:"2-digit", month:"long", year:"numeric" });
+  }
+  function formatDateShort(str) {
+    if (!str) return "—";
+    const d = new Date(str);
+    return isNaN(d) ? str : d.toLocaleDateString("pt-PT", { day:"2-digit", month:"short" });
+  }
+  function flagEmoji(nat) {
+    const map = {
+      "British":"🇬🇧","Dutch":"🇳🇱","Spanish":"🇪🇸","Monegasque":"🇲🇨",
+      "Mexican":"🇲🇽","Australian":"🇦🇺","German":"🇩🇪","French":"🇫🇷",
+      "Finnish":"🇫🇮","Danish":"🇩🇰","Canadian":"🇨🇦","Thai":"🇹🇭",
+      "Japanese":"🇯🇵","American":"🇺🇸","Chinese":"🇨🇳","Brazilian":"🇧🇷",
+      "Italian":"🇮🇹","Polish":"🇵🇱","Portuguese":"🇵🇹"
+    };
+    return map[nat] || "🏁";
+  }
+</script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>F1 Pulse | Pilotos</title>
-  <link rel="stylesheet" href="../assets/css/pilotos.css" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
 </head>
 <body>
   <header class="topbar">
@@ -15,19 +15,16 @@
       <a href="equipas.html">Equipas</a>
       <a href="pilotos.html" class="active">Pilotos</a>
     </nav>
-    <div class="search-icon">⌕</div>
   </header>
-  <main class="page pilots-layout">
-    <aside class="card sidebar">
-      <input type="text" placeholder="Pesquisar piloto..." />
-      <div class="pilot-list"> // esta div têm que ser gerada ao pesquisar 
+  
+  <main class="page">
+    <section class="page-header">
+      <div class="filters">
       </div>
-      <a href="#" class="btn small">Ver mais pilotos</a>
-      <section>
-    <img src = "/assets/Logos/pilots.png" >
-  </section>
-    </aside>
+    </section>
+    <section class="card list-section"></section>
   </main>
+  
   <footer class="footer">
     <div>F1 Pulse</div>
     <div class="footer-links">
@@ -37,5 +34,5 @@
     </div>
   </footer>
 </body>
-<script src="/assets/js/piloto.js"></script>
+<script type="module" src="../assets/js/piloto.js"></script>
 </html>
