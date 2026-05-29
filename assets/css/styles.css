@@ -310,3 +310,29 @@ input, select, button {
   transform: translateY(-5px);
   border-color: #333;
 }
+/* 1. Ajuste o container da imagem (Portrait) */
+.portrait {
+    width: 140px;
+    height: 140px;
+    overflow: hidden; /* Garante que nada saia fora da caixa */
+    border-radius: 12px;
+    flex-shrink: 0;   /* Impede que o container encolha se houver muito texto ao lado */
+    background: #eee; /* Cor de fundo caso a imagem demore a carregar */
+}
+
+/* 2. Ajuste a imagem dentro do container */
+.driver-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* A mágica: preenche o espaço sem deformar a imagem */
+    object-position: center top; /* Foca no rosto do piloto */
+    display: block;
+}
+
+/* 3. Garanta que o layout da grade não seja afetado */
+.highlight-layout {
+    display: grid;
+    grid-template-columns: 140px 1fr 1.2fr; /* Mantém a largura fixa da foto */
+    gap: 20px;
+    align-items: center;
+}

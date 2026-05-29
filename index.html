@@ -27,8 +27,8 @@
         <a href="pages/agenda.html" class="btn">Ver Agenda 2026</a>
       </div>
       <div class="hero-image">
-  <img src="assets/img/f1carro.jpg" alt="Carro de Fórmula 1" class="hero-car-img" />
-</div>
+        <img src="assets/img/f1carro.jpg" alt="Carro de Fórmula 1" class="hero-car-img" />
+      </div>
     </section>
 
     <section class="grid-two">
@@ -36,21 +36,14 @@
         <h3>Próxima Corrida</h3>
         <div class="race-card">
           <div class="placeholder small">Mapa do circuito</div>
-          <div>
-            <h4>GP de Mónaco</h4>
-            <p>24 Maio 2026</p>
-            <p>Monte Carlo</p>
-            <a href="#" class="btn small">Ver detalhes</a>
-          </div>
+          <div><h4>GP de Mónaco</h4><p>24 Maio 2026</p><p>Monte Carlo</p><a href="#" class="btn small">Ver detalhes</a></div>
         </div>
       </article>
 
       <article class="card">
         <h3>Últimos Resultados</h3>
         <table>
-          <thead>
-            <tr><th>Pos</th><th>Piloto</th><th>Equipa</th><th>Pts</th></tr>
-          </thead>
+          <thead><tr><th>Pos</th><th>Piloto</th><th>Equipa</th><th>Pts</th></tr></thead>
           <tbody>
             <tr><td>1</td><td>M. Verstappen</td><td>Red Bull</td><td>25</td></tr>
             <tr><td>2</td><td>L. Hamilton</td><td>Mercedes</td><td>18</td></tr>
@@ -63,15 +56,15 @@
 
     <section class="card">
       <h3>Equipas em Destaque</h3>
-      <div class="grid-cards" id="teams-grid">
-        <p>Carregando equipas...</p>
-      </div>
+      <div class="grid-cards" id="teams-grid"></div>
     </section>
 
     <section class="card driver-highlight">
       <h3>Piloto em Destaque</h3>
-      <div class="highlight-layout">
-        <div class="placeholder portrait">Foto do piloto</div>
+      <div class="highlight-layout" id="dynamic-pilot-info">
+        <div class="portrait">
+          <img src="assets/img/Max.png" alt="Max Verstappen" class="driver-img">
+        </div>
         <div>
           <h4>Max Verstappen</h4>
           <p>Red Bull Racing</p>
@@ -97,9 +90,8 @@
   </footer>
 
   <script>
+    // 1. Lógica das Equipas
     const container = document.getElementById("teams-grid");
-    
-    // Lista de objetos ligando o Nome da Equipa ao nome do arquivo na sua pasta
     const equipas = [
       { nome: "Red Bull Racing", file: "redbullracing.html" },
       { nome: "Mercedes", file: "mercedes.html" },
@@ -107,25 +99,47 @@
       { nome: "McLaren", file: "mclaren.html" }
     ];
     
-    container.innerHTML = "";
-    
     equipas.forEach(equipa => {
-      // Gera o nome para buscar a imagem (ex: redbullracing -> redbull)
       const logoName = equipa.file.replace('.html', '').replace('racing', '');
-      
       const card = document.createElement("a");
-      // Define o link corretamente para a sua estrutura de pastas
       card.href = `pages/equipasSubPages/${equipa.file}`;
-      
       card.className = "mini-card";
-      card.innerHTML = `
-        <img src="assets/Logos/${logoName}.png" alt="${equipa.nome}" class="tiny-logo" 
-             onerror="this.src='assets/Logos/default.png'">
-        <strong>${equipa.nome}</strong>
-        <span>Ver equipa</span>
-      `;
+      card.innerHTML = `<img src="assets/Logos/${logoName}.png" alt="${equipa.nome}" class="tiny-logo" onerror="this.src='assets/Logos/default.png'">
+                        <strong>${equipa.nome}</strong><span>Ver equipa</span>`;
       container.appendChild(card);
     });
+
+    // 2. Lógica do Piloto Destaque (Automático)
+    async function carregarLider() {
+      try {
+        const res = await fetch("https://api.openf1.org/v1/standings?session_key=9158");
+        const standings = await res.json();
+        standings.sort((a, b) => b.points - a.points);
+        const lider = standings[0];
+
+        const resDriver = await fetch(`https://api.openf1.org/v1/drivers?driver_number=${lider.driver_number}`);
+        const driverData = await resDriver.json();
+        const p = driverData[0];
+
+        // Referência aos elementos do DOM
+        const container = document.getElementById("dynamic-pilot-info");
+        
+        // Atualiza apenas os textos e os pontos
+        container.querySelector("h4").innerText = p.full_name;
+        container.querySelector(".stats-box").innerHTML = `<div><strong>${lider.points}</strong><span>Pontos</span></div>`;
+        
+        // Se a API trouxe foto oficial, atualiza a tag <img>
+        if (p.headshot_url) {
+          const img = container.querySelector(".driver-img");
+          img.src = p.headshot_url;
+          img.alt = p.full_name;
+        }
+      } catch (e) {
+        console.log("API indisponível, usando destaque fixo.");
+      }
+    }
+
+    carregarLider();
   </script>
 </body>
 </html>
