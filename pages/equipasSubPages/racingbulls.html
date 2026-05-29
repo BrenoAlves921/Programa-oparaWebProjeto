@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>F1 Pulse | Racing Bulls</title>
+
+  <link rel="stylesheet" href="../../assets/css/equipesub.css">
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="logo">
+      F1 <span>Pulse</span>
+    </div>
+
+    <nav class="navbar">
+      <a href="../../index.html">Home</a>
+      <a href="../agenda.html">Agenda</a>
+      <a href="../equipas.html">Equipas</a>
+      <a href="../pilotos.html">Pilotos</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+
+    <img
+      src="../../assets/Logos/rb.png"
+      class="team-logo"
+      alt="Racing Bulls Logo"
+    />
+
+    <div class="hero-info">
+      <h1>Visa Cash App RB F1 Team</h1>
+
+      <p>
+        Uma equipa com foco no desenvolvimento de jovens talentos e uma forte 
+        parceria técnica, trazendo uma energia dinâmica para o grid da Fórmula 1.
+      </p>
+    </div>
+
+  </section>
+
+  <section class="drivers-section">
+    <h2>Pilotos</h2>
+
+    <div class="drivers-grid" id="drivers-grid">
+      <p>Carregando pilotos...</p>
+    </div>
+  </section>
+
+  <section class="team-info">
+
+    <div class="info-grid">
+
+      <div class="info-card">
+        <h3>Base</h3>
+        <p>Faenza, Itália</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Motor</h3>
+        <p>Honda RBPT</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Estreia</h3>
+        <p>2006 (como Toro Rosso)</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Títulos</h3>
+        <p>0 Campeonatos</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <script>
+  async function carregarPilotos() {
+    const container = document.getElementById("drivers-grid");
+    
+    // Lista de fallback caso a API falhe
+    const pilotosFallback = [
+      { full_name: "Yuki Tsunoda", driver_number: 22, country_code: "JPN" },
+      { full_name: "Isack Hadjar", driver_number: 34, country_code: "FRA" }
+    ];
+
+    try {
+      // API query para RB
+      const response = await fetch("https://api.openf1.org/v1/drivers?team_name=RB");
+      let drivers = [];
+      
+      if (response.ok) {
+        drivers = await response.json();
+      }
+
+      const finalDrivers = (drivers && drivers.length > 0) 
+        ? Array.from(new Map(drivers.map(d => [d.driver_number, d])).values())
+        : pilotosFallback;
+
+      container.innerHTML = "";
+
+      finalDrivers.forEach(driver => {
+        const imgUrl = driver.headshot_url || "https://via.placeholder.com/120?text=F1";
+
+        const card = document.createElement("div");
+        card.className = "driver-card";
+
+        card.innerHTML = `
+          <img src="${imgUrl}" alt="${driver.full_name}" />
+          <h3>${driver.full_name}</h3>
+          <p>Número #${driver.driver_number}</p>
+          <p>${driver.country_code || ""}</p>
+        `;
+
+        container.appendChild(card);
+      });
+
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = "<p>Erro ao carregar pilotos.</p>";
+    }
+  }
+
+  carregarPilotos();
+</script>
+
+</body>
+</html>

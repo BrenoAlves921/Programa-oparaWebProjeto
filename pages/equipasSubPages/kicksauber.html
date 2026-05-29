@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>F1 Pulse | Kick Sauber</title>
+
+  <link rel="stylesheet" href="../../assets/css/equipesub.css">
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="logo">
+      F1 <span>Pulse</span>
+    </div>
+
+    <nav class="navbar">
+      <a href="../../index.html">Home</a>
+      <a href="../agenda.html">Agenda</a>
+      <a href="../equipas.html">Equipas</a>
+      <a href="../pilotos.html">Pilotos</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <img
+      src="../../assets/Logos/sauber.png"
+      class="team-logo"
+      alt="Kick Sauber Logo"
+    />
+    <div class="hero-info">
+      <h1>Kick Sauber F1 Team</h1>
+      <p>
+        Uma equipa com forte tradição na engenharia suíça, navegando por uma fase de 
+        transição e preparação estratégica para o futuro.
+      </p>
+    </div>
+  </section>
+
+  <section class="drivers-section">
+    <h2>Pilotos</h2>
+    <div class="drivers-grid" id="drivers-grid">
+      <p>Carregando pilotos...</p>
+    </div>
+  </section>
+
+  <section class="team-info">
+    <div class="info-grid">
+      <div class="info-card"><h3>Base</h3><p>Hinwil, Suíça</p></div>
+      <div class="info-card"><h3>Motor</h3><p>Ferrari</p></div>
+      <div class="info-card"><h3>Estreia</h3><p>1993</p></div>
+      <div class="info-card"><h3>Títulos</h3><p>0 Campeonatos</p></div>
+    </div>
+  </section>
+
+  <script>
+  async function carregarPilotos() {
+    const container = document.getElementById("drivers-grid");
+    
+    // Lista de fallback caso a API falhe ou venha vazia
+    const pilotosFallback = [
+      { full_name: "Nico Hülkenberg", driver_number: 27, headshot_url: "" },
+      { full_name: "Gabriel Bortoleto", driver_number: 40, headshot_url: "" }
+    ];
+
+    try {
+      const response = await fetch("https://api.openf1.org/v1/drivers?team_name=Sauber");
+      
+      let drivers = [];
+      if (response.ok) {
+        drivers = await response.json();
+      }
+
+      // Se API vazia, usa o fallback, senão usa a API
+      const finalDrivers = (drivers && drivers.length > 0) 
+        ? Array.from(new Map(drivers.map(d => [d.driver_number, d])).values())
+        : pilotosFallback;
+
+      container.innerHTML = "";
+      
+      finalDrivers.forEach(driver => {
+        const imgUrl = driver.headshot_url || "https://via.placeholder.com/120?text=F1";
+        const card = document.createElement("div");
+        card.className = "driver-card";
+        card.innerHTML = `
+          <img src="${imgUrl}" alt="${driver.full_name}" />
+          <h3>${driver.full_name}</h3>
+          <p>Número #${driver.driver_number}</p>
+        `;
+        container.appendChild(card);
+      });
+
+    } catch (err) {
+      console.error("Erro capturado, exibindo fallback:", err);
+      container.innerHTML = "";
+      pilotosFallback.forEach(driver => {
+        const card = document.createElement("div");
+        card.className = "driver-card";
+        card.innerHTML = `
+          <img src="https://via.placeholder.com/120?text=F1" alt="${driver.full_name}" />
+          <h3>${driver.full_name}</h3>
+          <p>Número #${driver.driver_number}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+  }
+
+  carregarPilotos();
+</script>
+
+</body>
+</html>

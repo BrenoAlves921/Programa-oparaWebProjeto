@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>F1 Pulse | Williams</title>
+
+  <link rel="stylesheet" href="../../assets/css/equipesub.css">
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="logo">
+      F1 <span>Pulse</span>
+    </div>
+
+    <nav class="navbar">
+      <a href="../../index.html">Home</a>
+      <a href="../agenda.html">Agenda</a>
+      <a href="../equipas.html">Equipas</a>
+      <a href="../pilotos.html">Pilotos</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+
+    <img
+      src="../../assets/Logos/williams.png"
+      class="team-logo"
+      alt="Williams Logo"
+    />
+
+    <div class="hero-info">
+      <h1>Williams Racing</h1>
+
+      <p>
+        Uma equipa histórica com um legado de vitórias inigualável. A Williams 
+        continua a sua jornada de reconstrução, focada em retornar ao topo da Fórmula 1.
+      </p>
+    </div>
+
+  </section>
+
+  <section class="drivers-section">
+    <h2>Pilotos</h2>
+
+    <div class="drivers-grid" id="drivers-grid">
+      <p>Carregando pilotos...</p>
+    </div>
+  </section>
+
+  <section class="team-info">
+
+    <div class="info-grid">
+
+      <div class="info-card">
+        <h3>Base</h3>
+        <p>Grove, Reino Unido</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Motor</h3>
+        <p>Mercedes</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Estreia</h3>
+        <p>1977</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Títulos</h3>
+        <p>9 Campeonatos</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <script>
+  async function carregarPilotos() {
+    const container = document.getElementById("drivers-grid");
+    
+    // Fallback: Dados dos pilotos para garantir que o site funcione
+    const pilotosFallback = [
+      { full_name: "Alexander Albon", driver_number: 23, country_code: "THA" },
+      { full_name: "Carlos Sainz", driver_number: 55, country_code: "ESP" }
+    ];
+
+    try {
+      const response = await fetch("https://api.openf1.org/v1/drivers?team_name=Williams");
+      let drivers = [];
+      
+      if (response.ok) {
+        drivers = await response.json();
+      }
+
+      const finalDrivers = (drivers && drivers.length > 0) 
+        ? Array.from(new Map(drivers.map(d => [d.driver_number, d])).values())
+        : pilotosFallback;
+
+      container.innerHTML = "";
+
+      finalDrivers.forEach(driver => {
+        const imgUrl = driver.headshot_url || "https://via.placeholder.com/120?text=F1";
+
+        const card = document.createElement("div");
+        card.className = "driver-card";
+
+        card.innerHTML = `
+          <img src="${imgUrl}" alt="${driver.full_name}" />
+          <h3>${driver.full_name}</h3>
+          <p>Número #${driver.driver_number}</p>
+          <p>${driver.country_code || ""}</p>
+        `;
+
+        container.appendChild(card);
+      });
+
+    } catch (err) {
+      console.error("Erro ao carregar Williams:", err);
+      container.innerHTML = "<p>Erro ao carregar pilotos.</p>";
+    }
+  }
+
+  carregarPilotos();
+</script>
+
+</body>
+</html>
