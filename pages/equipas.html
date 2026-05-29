@@ -102,9 +102,12 @@
 
           card.className = "team-card";
 
-          card.href =
-            "equipa.html?team=" + encodeURIComponent(team);
+         const teamPage = team
+  .toLowerCase()
+  .replace(/\s/g, "")
+  .replace(/[^a-z0-9]/g, "");
 
+card.href = `../pages/equipasSubPages/${teamPage}.html`;
           // logo da equipa
           const logo =
             teamLogos[team] || "default.png";

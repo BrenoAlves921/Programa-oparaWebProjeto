@@ -1,0 +1,153 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  color: #111;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* HEADER */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 24px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.4rem;
+}
+
+.logo span {
+  font-weight: 600;
+}
+
+.navbar {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar a.active {
+  border-bottom: 2px solid #111;
+  padding-bottom: 4px;
+}
+
+/* HERO (adaptado ao estilo claro do site) */
+.hero {
+  width: min(1200px, 92vw);
+  margin: 24px auto;
+
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+
+  padding: 24px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.team-logo {
+  width: 180px;
+  object-fit: contain;
+}
+
+.hero-info h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.hero-info p {
+  color: #444;
+  line-height: 1.6;
+}
+
+/* PILOTOS */
+.drivers-section {
+  width: min(1200px, 92vw);
+  margin: 24px auto;
+}
+
+.drivers-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+}
+
+.drivers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.driver-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+
+  padding: 16px;
+  text-align: center;
+
+  transition: 0.2s;
+}
+
+.driver-card:hover {
+  transform: translateY(-3px);
+  border-color: #111;
+}
+
+.driver-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.driver-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+
+.driver-card p {
+  color: #555;
+  margin: 4px 0;
+}
+
+/* INFO */
+.team-info {
+  width: min(1200px, 92vw);
+  margin: 24px auto;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.info-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+
+  padding: 16px;
+}
+
+.info-card h3 {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
