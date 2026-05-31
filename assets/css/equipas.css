@@ -11,54 +11,59 @@
 /* ── TEAM CARD ── */
 .team-card {
     background: #111;
-    border: 1px solid #333;
-    border-radius: 12px;
-    padding: 20px;
+    border: 1px solid #222;
+    border-radius: 16px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     text-decoration: none;
-    transition: all 0.25s;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.3s ease;
+    gap: 16px;
 }
 
 .team-card:hover {
     border-color: #ff1801;
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
 }
 
-/* O AJUSTE DA LOGO ESTÁ AQUI */
+/* Container para uniformizar as logos */
+.logo-container {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff0a;
+    border-radius: 12px;
+    padding: 10px;
+}
+
 .team-logo {
-    width: 80px;
-    height: 80px;
+    max-width: 80%;
+    max-height: 80%;
     object-fit: contain;
-    margin-bottom: 15px;
-    /* REMOVI O FILTER PARA AS IMAGENS APARECEREM COLORIDAS */
-    /* SE FICAR ESCURO, ADICIONE: background: #fff; padding: 5px; border-radius: 4px; */
 }
 
 .team-card strong {
     font-family: sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 0.95rem;
     color: #fff;
-    margin-bottom: 15px;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
 }
 
 .btn-details {
-    padding: 8px 16px;
+    padding: 8px 20px;
     background: transparent;
     color: #fff;
     border: 1px solid #ff1801;
     border-radius: 6px;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    cursor: pointer;
     transition: all 0.2s;
 }
 
@@ -67,12 +72,7 @@
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 1024px) {
-    .teams-grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 768px) {
-    .teams-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 480px) {
-    .teams-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 1200px) { .teams-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 900px)  { .teams-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px)  { .teams-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 400px)  { .teams-grid { grid-template-columns: 1fr; } }
