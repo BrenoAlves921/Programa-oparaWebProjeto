@@ -34,9 +34,9 @@
     <section class="grid-two">
       <article class="card">
         <h3>Próxima Corrida</h3>
-        <div class="race-card">
-          <div class="placeholder small">Mapa do circuito</div>
-          <div><h4>GP de Mónaco</h4><p>24 Maio 2026</p><p>Monte Carlo</p><a href="#" class="btn small">Ver detalhes</a></div>
+        <div class="race-card" id="next-race-card">
+          <div class="placeholder small" id="race-map"></div>
+          <div id="race-info"></div>
         </div>
       </article>
 
@@ -90,7 +90,92 @@
   </footer>
 
   <script>
+    // ============================================
+    // 3. Lógica da Próxima Corrida
+    // ============================================
+    
+    const corridasData = [
+      {
+        name: "Saudi Arabian Grand Prix",
+        date: "2026-06-07",
+        city: "Jeddah",
+        country: "Saudi Arabia",
+        circuit: "Jeddah Corniche Circuit",
+        coords: { lat: 24.7136, lng: 46.6753 }
+      },
+      {
+        name: "Monaco Grand Prix",
+        date: "2026-06-14",
+        city: "Monte Carlo",
+        country: "Monaco",
+        circuit: "Circuit de Monaco",
+        coords: { lat: 43.7384, lng: 7.4246 }
+      },
+      {
+        name: "Spanish Grand Prix",
+        date: "2026-06-21",
+        city: "Barcelona",
+        country: "Spain",
+        circuit: "Circuit de Barcelona-Catalunya",
+        coords: { lat: 41.57, lng: 1.586 }
+      },
+      {
+        name: "Austrian Grand Prix",
+        date: "2026-06-28",
+        city: "Spielberg",
+        country: "Austria",
+        circuit: "Red Bull Ring",
+        coords: { lat: 47.2127, lng: 14.7633 }
+      }
+    ];
+
+    function carregarProximaCorrida() {
+      try {
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
+        
+        // Encontra a próxima corrida
+        const proximaCorrida = corridasData.find(corrida => {
+          const dataCorrida = new Date(corrida.date);
+          dataCorrida.setHours(0, 0, 0, 0);
+          return dataCorrida >= hoje;
+        });
+        
+        if (proximaCorrida) {
+          const data = new Date(proximaCorrida.date);
+          const dataFormatada = data.toLocaleDateString('pt-PT', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          });
+          
+          // Criar URL do mapa
+          const { lat, lng } = proximaCorrida.coords;
+          const mapUrl = `https://maps.openstreetmap.org/export/png.php?bbox=${lng-0.05},${lat-0.05},${lng+0.05},${lat+0.05}&w=300&h=150`;
+          
+          // Atualizar mapa
+          const mapContainer = document.getElementById('race-map');
+          mapContainer.innerHTML = `<img src="${mapUrl}" alt="Mapa de ${proximaCorrida.circuit}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
+          
+          // Atualizar informações
+          const infoContainer = document.getElementById('race-info');
+          infoContainer.innerHTML = `
+            <h4>${proximaCorrida.name}</h4>
+            <p><strong>${dataFormatada}</strong></p>
+            <p>${proximaCorrida.city}, ${proximaCorrida.country}</p>
+            <a href="pages/agenda.html" class="btn small">Ver agenda completa</a>
+          `;
+        }
+      } catch (err) {
+        console.error("Erro ao carregar próxima corrida:", err);
+      }
+    }
+
+    carregarProximaCorrida();
+
+    // ============================================
     // 1. Lógica das Equipas
+    // ============================================
     const container = document.getElementById("teams-grid");
     const equipas = [
       { nome: "Red Bull Racing", file: "redbullracing.html" },
@@ -109,7 +194,9 @@
       container.appendChild(card);
     });
 
+    // ============================================
     // 2. Lógica do Piloto Destaque (Automático)
+    // ============================================
     async function carregarLider() {
       try {
         const res = await fetch("https://api.openf1.org/v1/standings?session_key=9158");
