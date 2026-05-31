@@ -1,97 +1,78 @@
 @import url('./styles.css');
 
-/* ── EQUIPAS PAGE ── */
-
+/* ── EQUIPAS PAGE GRID ── */
 .teams-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 18px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 20px;
 }
 
 /* ── TEAM CARD ── */
 .team-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 28px 20px 22px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.25s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-}
-.team-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: var(--red);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s;
-}
-.team-card:hover::before { transform: scaleX(1); }
-.team-card:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
 }
 
-.team-logo {
-  width: 100px;
-  height: 60px;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-  opacity: 0.75;
-  transition: opacity 0.2s;
+.team-card:hover {
+    border-color: #ff1801;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
-.team-card:hover .team-logo { opacity: 1; }
+
+/* O AJUSTE DA LOGO ESTÁ AQUI */
+.team-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    /* REMOVI O FILTER PARA AS IMAGENS APARECEREM COLORIDAS */
+    /* SE FICAR ESCURO, ADICIONE: background: #fff; padding: 5px; border-radius: 4px; */
+}
 
 .team-card strong {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+    text-transform: uppercase;
 }
 
-.team-card button {
-  padding: 8px 18px;
-  background: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 4px;
+.btn-details {
+    padding: 8px 16px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #ff1801;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
 }
-.team-card:hover button {
-  background: var(--red);
-  border-color: var(--red);
-  color: #fff;
+
+.team-card:hover .btn-details {
+    background: #ff1801;
 }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
-  .teams-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    .teams-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 768px) {
-  .teams-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .team-card { padding: 20px 14px 16px; }
+    .teams-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 480px) {
-  .teams-grid { grid-template-columns: 1fr; }
-  .team-logo { width: 80px; height: 50px; }
+    .teams-grid { grid-template-columns: 1fr; }
 }

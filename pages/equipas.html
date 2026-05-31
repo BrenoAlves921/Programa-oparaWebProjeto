@@ -4,49 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>F1 Pulse | Equipas</title>
-
   <link rel="stylesheet" href="../assets/css/equipas.css" />
-
-  <style>
-    .team-logo {
-      width: 90px;
-      height: 90px;
-      object-fit: contain;
-      margin-bottom: 12px;
-    }
-  </style>
 </head>
 
 <body>
-
   <header class="topbar">
     <div class="logo">F1 <span>Pulse</span></div>
-
     <nav class="navbar">
       <a href="../index.html">Home</a>
       <a href="agenda.html">Agenda</a>
       <a href="equipas.html" class="active">Equipas</a>
       <a href="pilotos.html">Pilotos</a>
     </nav>
-
     <div class="search-icon">⌕</div>
   </header>
 
   <main class="page">
-
     <section class="page-header">
       <h1>Equipas de Fórmula 1</h1>
     </section>
 
     <section class="teams-grid" id="teams-container">
-      <p>Carregando equipas...</p>
+      <!-- O script irá popular aqui -->
     </section>
-
   </main>
 
   <footer class="footer">
     <div>F1 Pulse</div>
-
     <div class="footer-links">
       <a href="#">Sobre</a>
       <a href="#">Contacto</a>
@@ -54,9 +38,35 @@
     </div>
   </footer>
 
-  <script type="module" src="/assets/js/equipas.js">
-  </script>
+  <script>
+    const equipas = [
+      { nome: "Red Bull Racing", file: "redbullracing.html", logo: "redbull.png" },
+      { nome: "McLaren", file: "mclaren.html", logo: "mclaren.png" },
+      { nome: "Ferrari", file: "ferrari.html", logo: "ferrari.png" },
+      { nome: "Mercedes", file: "mercedes.html", logo: "mercedes.jpg" },
+      { nome: "Alpine", file: "alpine.html", logo: "alpine.png" },
+      { nome: "Aston Martin", file: "astonmartin.html", logo: "astonmartin.png" },
+      { nome: "Audi", file: "audi.html", logo: "audi.png" },
+      { nome: "Cadillac", file: "cadillac.html", logo: "cadillac.png" },
+      { nome: "Haas", file: "haasf1team.html", logo: "haas.png" },
+      { nome: "Kick Sauber", file: "kicksauber.html", logo: "sauber.png" },
+      { nome: "Racing Bulls", file: "racingbulls.html", logo: "rb.png" },
+      { nome: "Williams", file: "williams.html", logo: "williams.png" }
+    ];
 
+    const container = document.getElementById("teams-container");
+
+    equipas.forEach(eq => {
+      const card = document.createElement("a");
+      card.href = `equipasSubPages/${eq.file}`;
+      card.className = "team-card";
+      card.innerHTML = `
+        <img src="../assets/Logos/${eq.logo}" class="team-logo" alt="${eq.nome}">
+        <strong>${eq.nome}</strong>
+        <span class="btn-details">Ver detalhes</span>
+      `;
+      container.appendChild(card);
+    });
+  </script>
 </body>
 </html>
-

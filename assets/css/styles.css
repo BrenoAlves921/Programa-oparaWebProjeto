@@ -251,7 +251,6 @@ tbody td:first-child { font-weight: 700; color: var(--text); }
 .tiny-logo {
   width: 52px; height: 52px;
   object-fit: contain;
-  filter: brightness(0) invert(1);
   opacity: 0.85;
 }
 
