@@ -1,153 +1,295 @@
+/* Importação das fontes oficiais do projeto F1 Pulse */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@400;500;600&display=swap');
+
+:root {
+  --primary-red: #e10600;
+  --bg-main: #0a0a0a;         /* Fundo principal super preto */
+  --bg-card: #111111;         /* Fundo dos cards cinza-escuro F1 */
+  --bg-card2: #181818;        /* Variação para hovers e elementos secundários */
+  --text-main: #f0f0f0;       /* Texto claro para contrastar com o fundo */
+  --text-muted: #aaa;         /* Texto secundário cinza claro */
+  --text-light: #777;         /* Texto discreto */
+  --border-color: rgba(255, 255, 255, 0.08);  /* Bordas subtis em ecrãs escuros */
+  --border-hover: rgba(255, 255, 255, 0.18);  /* Borda no hover */
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-sans: 'Barlow', sans-serif;
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 12px 36px rgba(0, 0, 0, 0.7);
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── RESET & CONFIGURAÇÕES GERAIS ── */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
-  color: #111;
+  font-family: var(--font-sans);
+  background: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+  transition: var(--transition-smooth);
 }
 
-/* HEADER */
+/* ── HEADER (TOPBAR) ── */
 .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 16px 24px;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  padding: 0 32px;
+  height: 64px;
+  background: rgba(10, 10, 10, 0.92); /* Menu escuro com transparência */
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .logo {
-  font-weight: 800;
-  font-size: 1.4rem;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #ffffff;
 }
 
 .logo span {
-  font-weight: 600;
+  color: var(--primary-red);
 }
 
 .navbar {
   display: flex;
-  gap: 20px;
+  gap: 4px;
+}
+
+.navbar a {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+
+.navbar a:hover {
+  color: var(--text-main);
+  background: var(--bg-card2);
 }
 
 .navbar a.active {
-  border-bottom: 2px solid #111;
-  padding-bottom: 4px;
+  color: #ffffff;
+  background: var(--bg-card2);
 }
 
-/* HERO (adaptado ao estilo claro do site) */
-.hero {
+/* ── LAYOUT ESTRUTURAL ── */
+.hero, 
+.drivers-section, 
+.team-info {
   width: min(1200px, 92vw);
-  margin: 24px auto;
+  margin: 32px auto;
+}
 
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 14px;
-
-  padding: 24px;
-
+/* ── HERO BANNER ── */
+.hero {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 40px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: auto 1fr;
+  gap: 48px;
   align-items: center;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--primary-red);
 }
 
 .team-logo {
-  width: 180px;
+  max-width: 220px;
+  height: auto;
   object-fit: contain;
+  filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5)); /* Destaca logos escuros */
 }
 
 .hero-info h1 {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 12px;
 }
 
 .hero-info p {
-  color: #444;
-  line-height: 1.6;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  max-width: 65ch;
 }
 
-/* PILOTOS */
-.drivers-section {
-  width: min(1200px, 92vw);
-  margin: 24px auto;
-}
-
+/* ── SECÇÃO DE PILOTOS ── */
 .drivers-section h2 {
-  font-size: 1.8rem;
-  margin-bottom: 16px;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 20px;
+  border-left: 4px solid var(--primary-red);
+  padding-left: 12px;
+  color: #ffffff;
 }
 
 .drivers-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
 }
 
+.drivers-grid > p {
+  grid-column: 1 / -1;
+  color: var(--text-light);
+  font-style: italic;
+  padding: 24px 0;
+}
+
+/* ── CARTÃO DO PILOTO (JS) ── */
 .driver-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 14px;
-
-  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 28px 20px;
   text-align: center;
-
-  transition: 0.2s;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: var(--transition-smooth);
 }
 
 .driver-card:hover {
-  transform: translateY(-3px);
-  border-color: #111;
+  transform: translateY(-6px);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+  background: var(--bg-card2); /* Dá um toque de profundidade no hover */
 }
 
 .driver-card img {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 10px;
+  background: linear-gradient(135deg, #1c1c1c, #0a0a0a);
+  border: 2px solid var(--border-color);
+  margin-bottom: 16px;
+  transition: var(--transition-smooth);
+}
+
+.driver-card:hover img {
+  border-color: var(--primary-red);
+  transform: scale(1.04);
 }
 
 .driver-card h3 {
-  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #ffffff;
   margin-bottom: 6px;
 }
 
-.driver-card p {
-  color: #555;
-  margin: 4px 0;
+.driver-card p:first-of-type {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--primary-red);
+  font-style: italic;
+  text-transform: uppercase;
 }
 
-/* INFO */
-.team-info {
-  width: min(1200px, 92vw);
-  margin: 24px auto;
+.driver-card p:last-of-type {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
 }
 
+/* ── BARRA DE ESPECIFICAÇÕES TÉCNICAS (INFO) ── */
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
 }
 
 .info-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
+}
 
-  padding: 16px;
+.info-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card2);
 }
 
 .info-card h3 {
-  margin-bottom: 8px;
-  font-size: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+  margin-bottom: 6px;
+}
+
+.info-card p {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* ── RESPONSIVIDADE ── */
+@media (max-width: 992px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+    gap: 24px;
+    padding: 32px;
+  }
+  .hero-info h1 { font-size: 2.5rem; }
+}
+
+@media (max-width: 600px) {
+  .topbar { padding: 0 16px; }
+  .navbar a { padding: 4px 8px; font-size: 0.9rem; }
+  .hero-info h1 { font-size: 2rem; }
+  .drivers-grid, .info-grid { grid-template-columns: 1fr; }
 }

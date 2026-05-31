@@ -2,14 +2,13 @@
 export async function obterTodosOsPilotos() {
   try {
     console.log("A chamar API para pilotos...");
-    // Endpoint de standings (rankings) que aceita a época e retorna os pilotos
     const response = await fetch(
       "https://v1.formula-1.api-sports.io/rankings/drivers?season=2023",
       {
         method: "GET",
         mode: "cors",
         headers: {
-          "x-apisports-key": "726b80477c3bd364adb17252ca61cb81"
+          "x-apisports-key": "eebd8d80a8b95331677bffa145b938cd"
         }
       }
     );
@@ -33,7 +32,7 @@ export async function procurarcorridas() {
         mode: "cors",
         headers: {
           
-        "x-apisports-key": "726b80477c3bd364adb17252ca61cb81"
+        "x-apisports-key": "eebd8d80a8b95331677bffa145b938cd"
         }
       }
     );

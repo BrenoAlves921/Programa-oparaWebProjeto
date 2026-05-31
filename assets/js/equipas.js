@@ -1,12 +1,48 @@
-console.log("script ativo") // log para verirficar se o cript foi ou nao ativo
+const container = document.getElementById("teams-container");
 
-const body = document.body; // vai buscar o body do html
-import { procurarcorridas } from "./data/api.js"; // vai com o import buscar  a função procurar corridas do "./data/api.js"
+async function carregarEquipas() {
+  try {
+    const res = await fetch("https://v1.formula-1.api-sports.io/teams", {
+      method: "GET",
+      headers: {
+        "x-apisports-key": "eebd8d80a8b95331677bffa145b938cd"  
+      }
+    });
 
-async function procurarEquipa (){             // async funcion para "gerar a agenda"
-    const dados = await procurarEquipa().  // declara uma constar para os dados provenientes do tal import
-    console.log(dados)       
-                     // log para imprimir os dados (estagio inicial do codigo)
-};
+    const result = await res.json();
+    const teams = result.response || [];
 
-procurarEquipa();                                   // log para imprimir os dados (estagio inicial do codigo)
+    container.innerHTML = "";
+
+    teams.forEach(team => {
+      const card = document.createElement("a");
+      card.className = "team-card";
+
+      const teamPage = team.name
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .replace(/[^a-z0-9]/g, "");
+
+      card.href = `../pages/equipasSubPages/${teamPage}.html`;
+
+      card.innerHTML = `
+        <img
+          class="team-logo"
+          src="${team.logo}"
+          alt="${team.name}"
+          onerror="this.src='../assets/Logos/default.png';"
+        />
+        <strong>${team.name}</strong>
+        <button>Ver detalhes</button>
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error("Erro ao carregar equipas:", err);
+    container.innerHTML = "<p>Erro ao carregar equipas. Verifica a chave da API.</p>";
+  }
+}
+
+carregarEquipas();
