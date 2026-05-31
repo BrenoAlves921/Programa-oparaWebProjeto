@@ -1,5 +1,21 @@
 const container = document.getElementById("teams-container");
 
+// Mapeamento de nomes de equipas da API para nomes dos arquivos
+const teamMapping = {
+  "alpine": "alpine",
+  "aston martin": "astonmartin",
+  "audi": "audi",
+  "cadillac": "cadillac",
+  "ferrari": "ferrari",
+  "haas": "haasf1team",
+  "kick sauber": "kicksauber",
+  "mclaren": "mclaren",
+  "mercedes": "mercedes",
+  "racing bulls": "racingbulls",
+  "red bull": "redbullracing",
+  "williams": "williams"
+};
+
 async function carregarEquipas() {
   try {
     const res = await fetch("https://v1.formula-1.api-sports.io/teams", {
@@ -18,10 +34,24 @@ async function carregarEquipas() {
       const card = document.createElement("a");
       card.className = "team-card";
 
-      const teamPage = team.name
-        .toLowerCase()
-        .replace(/\s+/g, "")
-        .replace(/[^a-z0-9]/g, "");
+      // Procura a chave correta no mapeamento
+      const teamNameLower = team.name.toLowerCase();
+      let teamPage = null;
+      
+      for (const [key, value] of Object.entries(teamMapping)) {
+        if (teamNameLower.includes(key)) {
+          teamPage = value;
+          break;
+        }
+      }
+
+      // Se não encontrou no mapeamento, usa o padrão anterior
+      if (!teamPage) {
+        teamPage = team.name
+          .toLowerCase()
+          .replace(/\s+/g, "")
+          .replace(/[^a-z0-9]/g, "");
+      }
 
       card.href = `../pages/equipasSubPages/${teamPage}.html`;
 
